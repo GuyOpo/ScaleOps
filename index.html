@@ -105,12 +105,11 @@
 
   /* ---------- slide 7 (stack) ---------- */
   .stackrow{position:absolute;left:556px;top:208px;display:flex;align-items:center;gap:8px}
-  .lcard{width:182px;height:100px;background:#fff;border:0;border-radius:12px;display:grid;place-items:center;
-    box-shadow:0 10px 30px rgba(0,0,0,.28);transition:transform .2s ease,box-shadow .2s ease;cursor:pointer;padding:0}
-  .stackrow .lcard:first-child{width:256px}
+  .lcard{width:210px;height:100px;background:#fff;border:0;border-radius:12px;display:grid;place-items:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.28);transition:transform .2s ease,box-shadow .2s ease;cursor:pointer;padding:0 12px}
   .lcard:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(0,0,0,.34)}
-  .lcard .lname{font:800 26px/1 var(--sans);color:#111;display:flex;align-items:center;gap:9px;letter-spacing:-.01em;white-space:nowrap}
-  .lcard .lname svg{width:30px;height:30px;flex-shrink:0;display:block}
+  .lcard .lname{font:800 22px/1.1 var(--sans);color:#111;display:flex;align-items:center;gap:8px;letter-spacing:-.01em;white-space:nowrap}
+  .lcard .lname svg{width:26px;height:26px;flex-shrink:0;display:block}
   .lcard .gem{color:#111}
   .arrow{color:var(--teal);font-size:20px;font-weight:700}
   .gate{position:absolute;left:602px;top:356px;font:400 18px/1 var(--sans);color:var(--muted)}
@@ -220,7 +219,6 @@
       <div class="logo"><span class="dot"></span>ScaleOps</div>
       <div class="title-xl serif">30-Day<br>Action Plan</div>
       <div class="title-sub">Building the Outbound Pipeline Engine</div>
-      <div class="ttarget">Toward 70% of pipeline from the SDR org</div>
       <div class="byline"><b>Guy Opochinski</b><span>Head of Business Development</span></div>
       <div class="hint">Use <b>↑</b> <b>↓</b> to scroll &nbsp;·&nbsp; click any point to go deeper</div>
     </section>
@@ -273,7 +271,7 @@
       <div class="leftblock">
         <div class="num-badge">03</div>
         <div class="sec-title">SDR Execution<br>System</div>
-        <div class="cap">LinkedIn-first, 15 touches, 25 days — documented to scale.</div>
+        <div class="cap">A repeatable playbook any rep can run.</div>
       </div>
       <div class="points n4">
         <button class="pt" data-dive="s5p1"><span class="pt-num">1</span><span><span class="pt-h">LinkedIn First<span class="pt-go">›</span></span><div class="pt-sub">SME profile, no-message connect, video, then call.</div></span></button>
@@ -289,7 +287,6 @@
       <div class="leftblock">
         <div class="num-badge">04</div>
         <div class="sec-title">Success<br>Metrics</div>
-        <div class="cap">Pipeline that converts, tracked from connect to install.</div>
       </div>
       <div class="mini-funnel">
         <div class="mf-eyebrow">The conversion path</div>
@@ -312,7 +309,7 @@
       <div class="leftblock">
         <div class="num-badge">05</div>
         <div class="sec-title">Stack:<br>Run &amp; First Change</div>
-        <div class="cap">CommonRoom → Clay → Apollo, signal wired to rep action.</div>
+        <div class="cap">Make the next call automatic, the stages clear, and nothing left on the shelf.</div>
       </div>
       <div class="stackrow">
         <button class="lcard" data-dive="s7cr"><span class="lname"><svg class="crmark" viewBox="0 0 100 100" aria-hidden="true"><rect x="22" y="22" width="56" height="56" rx="15" transform="rotate(45 50 50)" fill="#111"/><path d="M61 29 L61 43 L49 50 L61 57 L61 71 L37 50 Z" fill="#fff"/></svg>Common&nbsp;Room</span></button>
@@ -334,9 +331,9 @@
 <!-- chrome -->
 <div class="rail" id="rail"></div>
 <div class="navbar">
-  <button class="navbtn" id="prev" aria-label="Previous">‹</button>
+  <button class="navbtn" id="prev" aria-label="Previous">↑</button>
   <div class="counter"><b id="cur">01</b> / <span id="tot">07</span></div>
-  <button class="navbtn" id="next" aria-label="Next">›</button>
+  <button class="navbtn" id="next" aria-label="Next">↓</button>
 </div>
 
 <!-- modal -->
@@ -353,35 +350,34 @@
 <script>
 /* ---------- deep-dive content (from the talk track) ---------- */
 const DIVES = {
-  s3p1:{k:"01 · Intent & Signal Design",t:"Define the Signals",l:"Inbound signals rank first — they show the account raising its hand. Outbound signals back them up.",p:[
-    "Inbound (highest priority — the account raising its hand): pricing-page visits, whitepaper/demo downloads, webinars and events, a run of email opens.",
-    "Outbound (supporting signals — what they give off): Kubernetes growth across clouds, platform/SRE/FinOps hiring, funding that expands cloud spend, public cost-cutting, AI/GPU build-out.",
-    "Each segment gets its own signal map. Mid-market: recency and volume weight higher, shorter cycle. Air-gapped and regulated: stack fit and hiring replace product-led signals since a SaaS competitor can't run in their environment — ScaleOps self-hosts, which is the fit."]},
+  s3p1:{k:"01 · Intent & Signal Design",t:"Define the Signals",l:"Inbound signals rank first. Outbound signals back them up.",p:[
+    "Inbound (highest priority, the account raising its hand): pricing-page visits, whitepaper/demo downloads, webinars and events, a run of email opens.",
+    "Outbound (supporting signals, what they give off): Kubernetes growth across clouds, platform/SRE/FinOps hiring, funding that expands cloud spend, public cost-cutting, AI/GPU build-out.",
+    "Read intent at three levels: account (the company shows activity), individual (one person raising a hand), and multi-individual (more than one person at the same account, which is a buying group forming and sorts to the top).",
+    "Each segment gets its own signal map."]},
   s3p2:{k:"01 · Intent & Signal Design",t:"Score & Rank the Book",l:"Turn those signals into one score, then one ranked list reps work top-down each morning.",p:[
     "Inbound always outranks outbound. Within each, the individual contact outranks the account signal, and newer outranks older.",
     "Within a type, weight by action strength. Pricing plus a few pages beats a single whitepaper.",
     "Read intent at two levels; multiple people at one account = a buying group, and it sorts to the top.",
-    "The rep opens to a finished, ordered list and works it top down."]},
+    "The rep opens to a finished, ordered list (in Apollo or Slack) and works it top down."]},
   s3p3:{k:"01 · Intent & Signal Design",t:"Test & Reweight",l:"Day one the weighting without data is my best defensible guess. After that your data takes over.",p:[
     "Fit first (who matches ICP), then who's shown intent most recently.",
     "Tag which signals actually preceded a real conversation.",
-    "After 2–3 weeks, reweight on your own conversion data, so the model earns its keep instead of running on my guesses."]},
+    "After 2–3 weeks, reweight on actual conversion data, so the model earns its keep instead of running on my guesses."]},
 
-  s4p1:{k:"02 · Prioritization Workflow",t:"Build the Logic",l:"Custom scoring rules you define and own. Signal strength, ICP fit, and freshness, weighted and pushed as fields into Apollo.",p:[
+  s4p1:{k:"02 · Prioritization Workflow",t:"Build the Logic",l:"I build the scoring logic around ScaleOps' ICP: signal strength, freshness, and fit, weighted and pushed into Apollo as custom fields.",p:[
     "CommonRoom feeds the signal and surfaces intent; Clay enriches and scores ICP fit; the combined score ranks the book.",
     "Apollo has its own AI scoring, but it ranks on behavior inside Apollo (email opens, clicks). External intent from CommonRoom gets pushed in as a custom field, and you sort the Apollo view by it.",
     "Weighting: inbound outranks outbound, the individual outranks the account, newer outranks older.",
-    "Day one the weighting is my best defensible guess. After two or three weeks, reweight on your own conversion data."]},
-  s4p2:{k:"02 · Prioritization Workflow",t:"Surface the List",l:"Each morning the ranked list lands in Apollo as a sorted view. Every account comes with context: what it is, why it surfaced, what to do.",p:[
-    "Apollo view sorted by your custom score field — where reps already work, no new tool to open.",
+    "I start by looking at whatever conversion data exists. If there isn't enough to weight from, day one is my best defensible guess. After two or three weeks of real activity, we reweight on actual results."]},
+  s4p2:{k:"02 · Prioritization Workflow",t:"Surface the List",l:"Each morning the ranked list lands in Apollo or Slack as a sorted view. Every account comes with context: what it is, why it surfaced, what to do.",p:[
+    "View sorted by your custom score field, where reps already work, no new tool to open.",
     "Each account lands with context attached: the signal that triggered it and the suggested first move.",
-    "Tiering in practice (Chronosphere): Diablo = drop everything · Fire = next · Hot = strong, contact last · Mild = auto-nurture until it climbs.",
-    "I own the logic and the gate. RevOps scopes the technical connection."]},
-  s4p3:{k:"02 · Prioritization Workflow",t:"Keep It Fresh",l:"The list re-ranks every night on the latest signal. Yesterday's noise falls away; whatever's hot now rises to the top.",p:[
-    "Stale triggers drop overnight automatically.",
+    "Previously used Taco Bell Hot Sauce for tiering: Diablo, Fire, Hot, and so on. He'll remember the conversation."]},
+  s4p3:{k:"02 · Prioritization Workflow",t:"Keep It Fresh",l:"The list re-ranks every night on the latest signal.",p:[
     "New signals from CommonRoom surface before the rep's morning.",
-    "The list never looks the same two days running — it reflects what's actually happening in accounts right now.",
-    "No manual curation; the system maintains the order."]},
+    "The list reflects what's happening in accounts right now.",
+    "The system maintains the order so there is no need for manual curation."]},
 
   s5p1:{k:"03 · SDR Execution System",t:"LinkedIn First",l:"An SME-first motion that earns the conversation with technical buyers, platform engineers, SREs, DevOps.",p:[
     "Open with a no-message connection request (same accept rate as one with a note).",
@@ -392,12 +388,12 @@ const DIVES = {
     "Two voicemails total (first call and last); neither asks for a callback, both point to value.",
     "The touches always add value, we never “touch base” or “circle back.”"]},
   s5p3:{k:"03 · SDR Execution System",t:"Build It to Scale",l:"A documented motion and a warm hiring bench, so the org grows without depending on heroes.",p:[
-    "Enablement is continuous, because people forget about 89% of what they learn in a week without reinforcement.",
     "I recruit the way I prospect: always sourcing candidates, so when we hire we pull from a warm bench instead of only outside applications.",
+    "Continuous enablement, so everyone runs the same motion with the same skills.",
     "The goal is a system that doesn't depend on heroes. Repeatable beats heroic, and that's how it scales from 4 reps to 12 to 20."]},
   s5p4:{k:"03 · SDR Execution System",t:"Coach From the Work",l:"I coach live and model the motion, and I've carried a bag to this exact buyer.",p:[
-    "Staying in the calls is how I learn what's working fastest.",
-    "It keeps the messaging succinct, aimed at real pain, with a light lift to engage."]},
+    "I don't lead from a dashboard. I'm in Orum, in team call blocks, office hours, and private call hours when someone needs it.",
+    "Active participation in the call blocks helps me diagnose what's working faster."]},
 
   s6conv:{k:"04 · Success Metrics",t:"Conversion Over Activity",l:"Activity metrics show how busy the team is. The number that matters is pipeline that converts.",p:[
     "Connect to conversation: whether reps turn connects into real conversations.",
@@ -409,7 +405,7 @@ const DIVES = {
     "Every month you know the SAO volume required and whether the funnel is keeping pace.",
     "When you're behind, the math points to the exact stage that's short, so you fix the constraint rather than the symptom."]},
   s6lead:{k:"04 · Success Metrics",t:"Manage the Leading Indicators",l:"SAOs and pipeline are lagging measures. Dial-to-connect and conversation-to-meeting tell you weeks earlier whether you'll hit them.",p:[
-    "The comp already rewards the outcomes that matter: a point on the SAO, a point on the install. That's the right design.",
+    "The comp already rewards the outcomes that matter: a point on the SAO, a point on the install.",
     "Those outcomes are lagging by nature, so the job is managing the leading indicators that move them.",
     "If connect rate slips, you see it about three weeks before it shows up in pipeline and correct it in real time."]},
 
@@ -433,10 +429,10 @@ const DIVES = {
     "Build on the milestones already in place, SAO and install, by making the entry bar for each stage explicit.",
     "When the stages are clear, a rep sees exactly where their activity sits and what the next step is.",
     "Shared definitions keep the funnel honest, because everyone scores an account against the same bar."]},
-  s7p3:{k:"05 · Stack: Run & First Change",t:"Use What You Own",l:"Dripify is already owned and sitting idle, and the motion is LinkedIn-first, so it should be running the LinkedIn cadence.",p:[
+  s7p3:{k:"05 · Stack: Run & First Change",t:"Use What You Own",l:"Automate the LinkedIn cadence so reps spend their time on conversations, not busywork.",p:[
+    "Confirm what made it stall before, setup or fit, so turning it on actually sticks.",
     "See whether Dripify can automate the LinkedIn steps: connection requests, follow-ups, and sequencing.",
-    "It's already paid for, so the goal is getting real value from a tool that's been sitting on the shelf.",
-    "Confirm what made it stall before, setup or fit, so turning it on actually sticks."]}
+    "It's already paid for, so the goal is to keep it from staying shelfware."]}
 };
 
 /* ---------- deck navigation ---------- */
