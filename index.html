@@ -73,13 +73,13 @@
 
   /* ---------- slide 1 (title) ---------- */
   #s1 .logo{position:absolute;left:80px;top:80px}
-  .title-xl{position:absolute;left:80px;top:258px;font:800 120px/.95 var(--serif);color:var(--ink)}
-  .title-sub{position:absolute;left:82px;top:512px;font:italic 600 35px/1.2 var(--serif);color:var(--muted)}
+  .title-xl{position:absolute;left:80px;top:206px;font:800 120px/.95 var(--serif);color:var(--ink)}
+  .title-sub{position:absolute;left:82px;top:454px;font:italic 600 35px/1.2 var(--serif);color:var(--muted)}
   .ttarget{position:absolute;left:82px;top:584px;font:700 19px/1 var(--sans);color:var(--teal);letter-spacing:.01em}
-  .byline{position:absolute;left:82px;top:640px;display:flex;align-items:baseline;gap:16px}
+  .byline{position:absolute;left:82px;top:582px;display:flex;align-items:baseline;gap:16px}
   .byline b{font:700 23px/1 var(--sans)}
   .byline span{font:400 17px/1 var(--sans);color:var(--muted);letter-spacing:.16em;text-transform:uppercase}
-  .hint{position:absolute;left:82px;top:680px;font:400 13.5px/1 var(--sans);color:var(--muted-2);letter-spacing:.04em}
+  .hint{position:absolute;left:82px;top:632px;font:400 13.5px/1 var(--sans);color:var(--muted-2);letter-spacing:.04em}
   .hint b{color:var(--teal);font-weight:600}
 
   /* ---------- slide 2 (agenda) ---------- */
@@ -104,9 +104,9 @@
     color:var(--indigo);font:700 14px/1 var(--sans);letter-spacing:.01em}
 
   /* ---------- slide 7 (stack) ---------- */
-  .stackrow{position:absolute;left:556px;top:208px;display:flex;align-items:center;gap:8px}
-  .lcard{width:210px;height:100px;background:#fff;border:0;border-radius:12px;display:grid;place-items:center;
-    box-shadow:0 10px 30px rgba(0,0,0,.28);transition:transform .2s ease,box-shadow .2s ease;cursor:pointer;padding:0 12px}
+  .stackrow{position:absolute;left:512px;top:184px;display:flex;align-items:center;gap:10px}
+  .lcard{width:220px;height:108px;background:#fff;border:0;border-radius:12px;display:grid;place-items:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.28);transition:transform .2s ease,box-shadow .2s ease;cursor:pointer;padding:0 14px}
   .lcard:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(0,0,0,.34)}
   .lcard .lname{font:800 22px/1.1 var(--sans);color:#111;display:flex;align-items:center;gap:8px;letter-spacing:-.01em;white-space:nowrap}
   .lcard .lname svg{width:26px;height:26px;flex-shrink:0;display:block}
@@ -114,7 +114,7 @@
   .arrow{color:var(--teal);font-size:20px;font-weight:700}
   .gate{position:absolute;left:602px;top:356px;font:400 18px/1 var(--sans);color:var(--muted)}
   .gate b{color:#cfcfe9;font-weight:500}
-  .points.stackpts{top:320px;bottom:auto;height:auto;gap:38px;justify-content:flex-start}
+  .points.stackpts{top:346px;bottom:auto;height:auto;gap:38px;justify-content:flex-start}
 
   /* ---------- chrome: dots, arrows, counter ---------- */
   .rail{position:fixed;right:26px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:13px;z-index:20}
@@ -308,7 +308,7 @@
       <div class="deco" style="width:1040px;height:1040px;right:-300px;top:-280px"></div>
       <div class="leftblock">
         <div class="num-badge">05</div>
-        <div class="sec-title">Stack:<br>Run &amp; First Change</div>
+        <div class="sec-title">Stack: Run<br>&amp; First Change</div>
         <div class="cap">Make the next call automatic, the stages clear, and nothing left on the shelf.</div>
       </div>
       <div class="stackrow">
@@ -331,9 +331,7 @@
 <!-- chrome -->
 <div class="rail" id="rail"></div>
 <div class="navbar">
-  <button class="navbtn" id="prev" aria-label="Previous">↑</button>
   <div class="counter"><b id="cur">01</b> / <span id="tot">07</span></div>
-  <button class="navbtn" id="next" aria-label="Next">↓</button>
 </div>
 
 <!-- modal -->
@@ -459,8 +457,8 @@ function go(i){
   index=i;
 }
 function next(){go(index+1)} function prev(){go(index-1)}
-document.getElementById('next').addEventListener('click',next);
-document.getElementById('prev').addEventListener('click',prev);
+document.getElementById('next')?.addEventListener('click',next);
+document.getElementById('prev')?.addEventListener('click',prev);
 
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){if(modalOpen)closeModal();return;}
