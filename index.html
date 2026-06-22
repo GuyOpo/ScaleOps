@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ScaleOps, 30-Day Action Plan · Guy Opochinski</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;0,900;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --indigo:#1E1B6B;
+    --indigo-deep:#14123f;
+    --teal:#2DE0A6;
+    --teal-2:#20C997;
+    --gold:#F2C14E;
+    --ink:#ffffff;
+    --muted:#9a9ac4;
+    --muted-2:#8585b6;
+    --line:rgba(154,154,196,.22);
+    --serif:'Playfair Display',Georgia,'Times New Roman',serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:var(--indigo);font-family:var(--sans);color:var(--ink)}
+
+  /* ---------- Deck / stage scaling ---------- */
+  .deck{position:fixed;inset:0;overflow:hidden;background:var(--indigo)}
+  .stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:top left}
+
+  .slide{position:absolute;inset:0;opacity:0;visibility:hidden;transform:translateX(36px);
+    transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1);background:var(--indigo)}
+  .slide.active{opacity:1;visibility:visible;transform:none}
+  .slide.prev{transform:translateX(-36px)}
+
+  .deco{position:absolute;border:1.5px solid rgba(154,154,196,.13);border-radius:50%;pointer-events:none}
+
+  /* ---------- typography helpers ---------- */
+  .serif{font-family:var(--serif)}
+  .eyebrow{font:600 15px/1 var(--sans);letter-spacing:.30em;text-transform:uppercase;color:var(--teal)}
+  .sec-title{font:800 54px/1.04 var(--serif);color:var(--ink)}
+  .cap{font:italic 500 29px/1.32 var(--serif);color:var(--muted)}
+
+  /* logo lockup */
+  .logo{display:flex;align-items:center;gap:11px;font:700 23px/1 var(--sans);letter-spacing:.01em}
+  .logo .dot{width:14px;height:14px;border-radius:50%;background:var(--teal);box-shadow:0 0 14px rgba(45,224,166,.6)}
+
+  /* ---------- left block on topic slides ---------- */
+  .leftblock{position:absolute;left:80px;top:0;bottom:0;width:410px}
+  .num-badge{position:absolute;top:96px;left:0;width:116px;height:116px;border-radius:50%;
+    background:var(--teal);display:grid;place-items:center;font:700 46px/1 var(--serif);color:var(--indigo)}
+  .leftblock .sec-title{position:absolute;top:280px;left:0;width:400px}
+  .leftblock .cap{position:absolute;top:548px;left:0;width:380px}
+
+  /* ---------- right points column ---------- */
+  .points{position:absolute;left:516px;top:44px;bottom:44px;width:700px;
+    display:flex;flex-direction:column;justify-content:center}
+  .points.n2{gap:78px}.points.n3{gap:62px}.points.n4{gap:34px}
+  .pt{position:relative;display:grid;grid-template-columns:48px 1fr;align-items:start;
+    border:0;background:none;text-align:left;color:inherit;font:inherit;cursor:pointer;
+    padding:24px 0 4px;width:100%;transition:transform .2s ease}
+  .points .pt:first-child{padding-top:0}
+  .pt:not(:first-child)::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--line)}
+  .pt-num{font:700 20px/1 var(--serif);color:var(--teal);padding-top:16px}
+  .pt:first-child .pt-num{padding-top:10px}
+  .pt-h{font:700 52px/1 var(--serif);color:var(--ink);letter-spacing:-.01em;display:inline}
+  .pt-sub{display:none}
+  .pt-go{display:inline-block;margin-left:16px;color:var(--teal);opacity:.4;transform:translateX(0);
+    transition:opacity .2s ease,transform .2s ease;font-size:34px;vertical-align:-3px;line-height:0}
+  .pt:hover .pt-h{color:#eafff7}
+  .pt:hover .pt-go{opacity:1;transform:translateX(5px)}
+  .pt:hover{transform:translateX(3px)}
+
+  /* ---------- slide 1 (title) ---------- */
+  #s1 .logo{position:absolute;left:80px;top:80px}
+  .title-xl{position:absolute;left:80px;top:258px;font:800 120px/.95 var(--serif);color:var(--ink)}
+  .title-sub{position:absolute;left:82px;top:512px;font:italic 600 35px/1.2 var(--serif);color:var(--muted)}
+  .ttarget{position:absolute;left:82px;top:584px;font:700 19px/1 var(--sans);color:var(--teal);letter-spacing:.01em}
+  .byline{position:absolute;left:82px;top:640px;display:flex;align-items:baseline;gap:16px}
+  .byline b{font:700 23px/1 var(--sans)}
+  .byline span{font:400 17px/1 var(--sans);color:var(--muted);letter-spacing:.16em;text-transform:uppercase}
+  .hint{position:absolute;left:82px;top:680px;font:400 13.5px/1 var(--sans);color:var(--muted-2);letter-spacing:.04em}
+  .hint b{color:var(--teal);font-weight:600}
+
+  /* ---------- slide 2 (agenda) ---------- */
+  #s2 .eyebrow{position:absolute;left:80px;top:92px}
+  .agenda{position:absolute;left:80px;right:80px;top:128px}
+  .arow{display:grid;grid-template-columns:112px 1fr;align-items:center;height:104px;
+    border:0;background:none;color:inherit;text-align:left;cursor:pointer;width:100%;
+    border-top:1px solid var(--line);transition:padding .2s ease}
+  .arow:first-child{border-top:0}
+  .acircle{width:74px;height:74px;border-radius:50%;border:2px solid var(--teal);display:grid;place-items:center;
+    font:700 21px/1 var(--sans);color:var(--teal);transition:background .2s ease,color .2s ease}
+  .atitle{font:700 46px/1 var(--serif);display:flex;align-items:center;gap:20px}
+  .atitle .ago{color:var(--teal);opacity:0;font-size:30px;transform:translateX(-6px);transition:all .2s ease}
+  .arow:hover{padding-left:14px}
+  .arow:hover .acircle{background:var(--teal);color:var(--indigo)}
+  .arow:hover .ago{opacity:1;transform:none}
+
+  /* ---------- slide 6 (success metrics, left block + clickable titles + mini funnel) ---------- */
+  .mini-funnel{position:absolute;left:80px;top:404px;width:372px;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .mf-eyebrow{align-self:flex-start;margin-bottom:13px;font:600 13px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+  .mf-band{width:372px;height:33px;display:flex;align-items:center;justify-content:center;
+    color:var(--indigo);font:700 14px/1 var(--sans);letter-spacing:.01em}
+
+  /* ---------- slide 7 (stack) ---------- */
+  .stackrow{position:absolute;left:556px;top:236px;display:flex;align-items:center;gap:8px}
+  .lcard{width:182px;height:100px;background:#fff;border:0;border-radius:12px;display:grid;place-items:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.28);transition:transform .2s ease,box-shadow .2s ease;cursor:pointer;padding:0}
+  .stackrow .lcard:first-child{width:256px}
+  .lcard:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(0,0,0,.34)}
+  .lcard .lname{font:800 26px/1 var(--sans);color:#111;display:flex;align-items:center;gap:9px;letter-spacing:-.01em;white-space:nowrap}
+  .lcard .lname svg{width:30px;height:30px;flex-shrink:0;display:block}
+  .lcard .gem{color:#111}
+  .arrow{color:var(--teal);font-size:20px;font-weight:700}
+  .gate{position:absolute;left:602px;top:356px;font:400 18px/1 var(--sans);color:var(--muted)}
+  .gate b{color:#cfcfe9;font-weight:500}
+  .points.stackpts{top:auto;bottom:48px;height:280px}
+
+  /* ---------- chrome: dots, arrows, counter ---------- */
+  .rail{position:fixed;right:26px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:13px;z-index:20}
+  .rdot{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--muted);background:transparent;cursor:pointer;
+    padding:0;transition:all .25s ease}
+  .rdot.on{background:var(--teal);border-color:var(--teal);transform:scale(1.25);box-shadow:0 0 12px rgba(45,224,166,.6)}
+  .navbar{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:18px;z-index:20}
+  .navbtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    color:var(--muted);cursor:pointer;display:grid;place-items:center;font-size:18px;transition:all .2s ease}
+  .navbtn:hover{background:rgba(45,224,166,.12);color:var(--teal);border-color:rgba(45,224,166,.4)}
+  .counter{font:600 13px/1 var(--sans);color:var(--muted);letter-spacing:.12em;min-width:62px;text-align:center}
+  .counter b{color:var(--ink)}
+
+  /* ---------- modal ---------- */
+  .overlay{position:fixed;inset:0;z-index:50;display:none;background:rgba(8,7,28,.74);backdrop-filter:blur(6px);
+    padding:30px;overflow-y:auto}
+  .overlay.open{display:flex;align-items:center;justify-content:center}
+  .modal{width:100%;max-width:620px;background:linear-gradient(180deg,#252178,#1b1858);
+    border:1px solid var(--line);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5);
+    padding:38px 40px 36px;animation:rise .32s cubic-bezier(.2,.7,.2,1);position:relative}
+  @keyframes rise{from{opacity:0;transform:translateY(20px) scale(.98)}to{opacity:1;transform:none}}
+  .modal .mkicker{font:600 13px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+  .modal h3{font:800 38px/1.05 var(--serif);margin-bottom:16px;letter-spacing:-.01em}
+  .modal .mlead{font:400 18px/1.5 var(--sans);color:#dcdcf0;margin-bottom:22px}
+  .modal ul{list-style:none;display:flex;flex-direction:column;gap:13px}
+  .modal li{position:relative;padding-left:22px;font:400 16px/1.5 var(--sans);color:#e6e6f4}
+  .modal li::before{content:"";position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--teal)}
+  .mclose{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+    background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer;font-size:18px;display:grid;place-items:center;transition:all .2s ease}
+  .mclose:hover{background:rgba(255,255,255,.1);color:#fff;transform:rotate(90deg)}
+
+  /* ===================== MOBILE ===================== */
+  @media (max-width:760px){
+    html,body{overflow:auto;height:auto;-webkit-text-size-adjust:100%}
+    .deck{position:static;overflow:visible;height:auto}
+    .stage{position:static;transform:none!important;width:100%;height:auto}
+    .slide{position:static;opacity:1!important;visibility:visible!important;transform:none!important;
+      display:block;width:100%;min-height:0;padding:40px 22px;border-bottom:1px solid var(--line);overflow-x:hidden}
+    .deco{display:none}
+    .rail,.navbar{display:none}
+
+    /* title */
+    #s1{padding-top:48px}
+    #s1 .logo{position:static;margin-bottom:38px}
+    .title-xl{position:static;font-size:52px;line-height:1.0;margin-bottom:16px}
+    .title-sub{position:static;font-size:21px;margin-bottom:16px}
+    .ttarget{position:static;font-size:16px;margin-bottom:24px;line-height:1.3}
+    .byline{position:static;flex-wrap:wrap;gap:4px 14px;margin-bottom:12px}
+    .byline b{font-size:18px}
+    .hint{position:static;font-size:12px}
+
+    /* agenda */
+    #s2 .eyebrow{position:static;margin-bottom:20px}
+    .agenda{position:static}
+    .arow{grid-template-columns:60px 1fr;height:auto;padding:16px 0}
+    .arow:hover{padding-left:0}
+    .acircle{width:48px;height:48px;font-size:15px}
+    .atitle{font-size:25px;gap:0}
+    .atitle .ago{display:none}
+
+    /* topic slides */
+    .leftblock{position:static;width:auto;margin-bottom:26px}
+    .num-badge{position:static;width:66px;height:66px;font-size:28px;margin-bottom:18px}
+    .leftblock .sec-title,.sec-title{position:static;width:auto;font-size:33px;line-height:1.05}
+    .leftblock .cap{position:static;width:auto;font-size:19px;margin-top:16px}
+    .points,.points.n2,.points.n3,.points.n4,.points.stackpts{position:static;width:auto;height:auto;
+      display:block;gap:0;top:auto;bottom:auto}
+    .pt{grid-template-columns:28px 1fr;padding:16px 0;transform:none!important}
+    .pt-num{font-size:14px;padding-top:6px}
+    .pt:first-child .pt-num{padding-top:6px}
+    .pt-h{font-size:27px}
+    .pt-go{font-size:22px;opacity:.55}
+
+    /* success-metrics funnel */
+    .mini-funnel{position:static;left:auto;margin:8px auto 4px;transform:scale(.8);transform-origin:top center}
+    .mf-eyebrow{font-size:12px}
+
+    /* stack */
+    .stackrow{position:static;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+    .lcard{width:31%;min-width:96px;height:62px;padding:0 4px}
+    .lcard .lname{font-size:11px;gap:5px}
+    .lcard .lname svg{width:15px;height:15px}
+    .arrow{display:none}
+    .gate{position:static;font-size:13.5px;margin-bottom:18px;line-height:1.5}
+
+    /* modal */
+    .overlay{padding:16px}
+    .modal{padding:26px 22px 24px}
+    .modal h3{font-size:26px}
+    .modal .mlead{font-size:16px}
+    .modal .mkicker{padding-right:38px}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <div class="stage" id="stage">
+
+    <!-- ===== SLIDE 1: TITLE ===== -->
+    <section class="slide active" id="s1">
+      <div class="deco" style="width:1180px;height:1180px;right:-360px;top:-330px"></div>
+      <div class="logo"><span class="dot"></span>ScaleOps</div>
+      <div class="title-xl serif">30-Day<br>Action Plan</div>
+      <div class="title-sub">Building the Outbound Pipeline Engine</div>
+      <div class="ttarget">Toward 70% of pipeline from the SDR org in 6–9 months</div>
+      <div class="byline"><b>Guy Opochinski</b><span>Head of Business Development</span></div>
+      <div class="hint">Use <b>←</b> <b>→</b> · scroll · or swipe to move &nbsp;·&nbsp; click any point to go deeper</div>
+    </section>
+
+    <!-- ===== SLIDE 2: AGENDA ===== -->
+    <section class="slide" id="s2">
+      <div class="eyebrow">Agenda</div>
+      <div class="agenda">
+        <button class="arow" data-goto="2"><span class="acircle">01</span><span class="atitle">Intent &amp; Signal Design <span class="ago">→</span></span></button>
+        <button class="arow" data-goto="3"><span class="acircle">02</span><span class="atitle">Prioritization Workflow <span class="ago">→</span></span></button>
+        <button class="arow" data-goto="4"><span class="acircle">03</span><span class="atitle">SDR Execution System <span class="ago">→</span></span></button>
+        <button class="arow" data-goto="5"><span class="acircle">04</span><span class="atitle">Success Metrics <span class="ago">→</span></span></button>
+        <button class="arow" data-goto="6"><span class="acircle">05</span><span class="atitle">Stack: Run &amp; First Change <span class="ago">→</span></span></button>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 3: INTENT & SIGNAL DESIGN ===== -->
+    <section class="slide" id="s3">
+      <div class="deco" style="width:1040px;height:1040px;right:-300px;top:-280px"></div>
+      <div class="leftblock">
+        <div class="num-badge">01</div>
+        <div class="sec-title">Intent &amp;<br>Signal Design</div>
+      </div>
+      <div class="points n3">
+        <button class="pt" data-dive="s3p1"><span class="pt-num">1</span><span><span class="pt-h">Define the Signals<span class="pt-go">›</span></span><div class="pt-sub">Inbound + outbound, what actually counts as a buying signal.</div></span></button>
+        <button class="pt" data-dive="s3p2"><span class="pt-num">2</span><span><span class="pt-h">Score &amp; Rank the Book<span class="pt-go">›</span></span><div class="pt-sub">Weight them into one ranked list reps work top-down.</div></span></button>
+        <button class="pt" data-dive="s3p3"><span class="pt-num">3</span><span><span class="pt-h">Test &amp; Reweight<span class="pt-go">›</span></span><div class="pt-sub">Tag what preceded a real conversation; reweight on real data.</div></span></button>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 4: PRIORITIZATION WORKFLOW ===== -->
+    <section class="slide" id="s4">
+      <div class="deco" style="width:1040px;height:1040px;right:-300px;top:-280px"></div>
+      <div class="leftblock">
+        <div class="num-badge">02</div>
+        <div class="sec-title">Prioritization<br>Workflow</div>
+      </div>
+      <div class="points n3">
+        <button class="pt" data-dive="s4p1"><span class="pt-num">1</span><span><span class="pt-h">Build the Logic<span class="pt-go">›</span></span></span></button>
+        <button class="pt" data-dive="s4p2"><span class="pt-num">2</span><span><span class="pt-h">Surface the List<span class="pt-go">›</span></span></span></button>
+        <button class="pt" data-dive="s4p3"><span class="pt-num">3</span><span><span class="pt-h">Keep It Fresh<span class="pt-go">›</span></span></span></button>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 5: SDR EXECUTION SYSTEM ===== -->
+    <section class="slide" id="s5">
+      <div class="deco" style="width:1040px;height:1040px;right:-300px;top:-280px"></div>
+      <div class="leftblock">
+        <div class="num-badge">03</div>
+        <div class="sec-title">SDR Execution<br>System</div>
+      </div>
+      <div class="points n4">
+        <button class="pt" data-dive="s5p1"><span class="pt-num">1</span><span><span class="pt-h">LinkedIn First<span class="pt-go">›</span></span><div class="pt-sub">SME profile, no-message connect, video, then call.</div></span></button>
+        <button class="pt" data-dive="s5p2"><span class="pt-num">2</span><span><span class="pt-h">15 Touches, 25 Days<span class="pt-go">›</span></span><div class="pt-sub">Coordinated across LinkedIn, phone, voicemail, and email.</div></span></button>
+        <button class="pt" data-dive="s5p3"><span class="pt-num">3</span><span><span class="pt-h">Build It to Scale<span class="pt-go">›</span></span><div class="pt-sub">A documented motion that holds up from 4 reps to 20.</div></span></button>
+        <button class="pt" data-dive="s5p4"><span class="pt-num">4</span><span><span class="pt-h">Coach From the Work<span class="pt-go">›</span></span><div class="pt-sub">I coach live and model the motion. I've sold to this buyer.</div></span></button>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 6: SUCCESS METRICS ===== -->
+    <section class="slide" id="s6">
+      <div class="deco" style="width:1040px;height:1040px;right:-300px;top:-280px"></div>
+      <div class="leftblock">
+        <div class="num-badge">04</div>
+        <div class="sec-title">Success<br>Metrics</div>
+      </div>
+      <div class="mini-funnel">
+        <div class="mf-eyebrow">The conversion path</div>
+        <div class="mf-band" style="background:#34E2AB;clip-path:polygon(0 0,372px 0,342px 100%,30px 100%)">Connect</div>
+        <div class="mf-band" style="background:#2BD6A1;clip-path:polygon(30px 0,342px 0,312px 100%,60px 100%)">Conversation</div>
+        <div class="mf-band" style="background:#23C998;clip-path:polygon(60px 0,312px 0,282px 100%,90px 100%)">Meeting</div>
+        <div class="mf-band" style="background:#F2C14E;clip-path:polygon(90px 0,282px 0,252px 100%,120px 100%)">Opportunity</div>
+        <div class="mf-band" style="background:#1CC08F;clip-path:polygon(120px 0,252px 0,232px 100%,140px 100%)">Pipeline</div>
+      </div>
+      <div class="points n3">
+        <button class="pt" data-dive="s6conv"><span class="pt-num">1</span><span><span class="pt-h">Conversion Over Activity<span class="pt-go">›</span></span></span></button>
+        <button class="pt" data-dive="s6back"><span class="pt-num">2</span><span><span class="pt-h">Work Backward from 70%<span class="pt-go">›</span></span></span></button>
+        <button class="pt" data-dive="s6lead"><span class="pt-num">3</span><span><span class="pt-h">Manage the Leading Indicators<span class="pt-go">›</span></span></span></button>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 7: STACK ===== -->
+    <section class="slide" id="s7">
+      <div class="deco" style="width:1040px;height:1040px;right:-300px;top:-280px"></div>
+      <div class="leftblock">
+        <div class="num-badge">05</div>
+        <div class="sec-title">Stack:<br>Run &amp; First Change</div>
+        <div class="cap">The stack is solid.<br>Wire it, then turn on Dripify.</div>
+      </div>
+      <div class="stackrow">
+        <button class="lcard" data-dive="s7cr"><span class="lname"><svg class="crmark" viewBox="0 0 100 100" aria-hidden="true"><rect x="22" y="22" width="56" height="56" rx="15" transform="rotate(45 50 50)" fill="#111"/><path d="M61 29 L61 43 L49 50 L61 57 L61 71 L37 50 Z" fill="#fff"/></svg>Common&nbsp;Room</span></button>
+        <span class="arrow">→</span>
+        <button class="lcard" data-dive="s7clay"><span class="lname">🌈&nbsp;clay</span></button>
+        <span class="arrow">→</span>
+        <button class="lcard" data-dive="s7apollo"><span class="lname">✳&nbsp;Apollo</span></button>
+      </div>
+      <div class="points n2 stackpts">
+        <button class="pt" data-dive="s7p1"><span class="pt-num">1</span><span><span class="pt-h">Wire Signal to Action<span class="pt-go">›</span></span><div class="pt-sub">Undefined today. Score and route so reps act on a ranked list.</div></span></button>
+        <button class="pt" data-dive="s7p2"><span class="pt-num">2</span><span><span class="pt-h">Verify Channel Health<span class="pt-go">›</span></span><div class="pt-sub">Connect rate looks like a number-burn problem. Diagnose before optimizing on top of it.</div></span></button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- chrome -->
+<div class="rail" id="rail"></div>
+<div class="navbar">
+  <button class="navbtn" id="prev" aria-label="Previous">‹</button>
+  <div class="counter"><b id="cur">01</b> / <span id="tot">07</span></div>
+  <button class="navbtn" id="next" aria-label="Next">›</button>
+</div>
+
+<!-- modal -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <button class="mclose" id="mclose" aria-label="Close">&times;</button>
+    <div class="mkicker" id="mkicker"></div>
+    <h3 id="mtitle"></h3>
+    <p class="mlead" id="mlead"></p>
+    <ul id="mlist"></ul>
+  </div>
+</div>
+
+<script>
+/* ---------- deep-dive content (from the talk track) ---------- */
+const DIVES = {
+  s3p1:{k:"01 · Intent & Signal Design",t:"Define the Signals",l:"Decide what actually counts as a buying signal, inbound and outbound, before anything gets scored.",p:[
+    "Inbound (the account raising its hand): pricing-page visits, whitepaper/demo downloads, webinars and events, a run of email opens.",
+    "Outbound (what they give off): Kubernetes growth across clouds, platform/SRE/FinOps hiring, funding that expands cloud spend, public cost-cutting, AI/GPU build-out.",
+    "Outbound flags the sprawl ScaleOps fixes, and regulated / air-gapped firms are a strong fit (can't run a SaaS competitor; ScaleOps self-hosts)."]},
+  s3p2:{k:"01 · Intent & Signal Design",t:"Score & Rank the Book",l:"Turn those signals into one score, then one ranked list reps work top-down each morning.",p:[
+    "Weighting: inbound outranks outbound, the individual outranks the account, newer outranks older.",
+    "Within a type, weight by action strength. Pricing plus a few pages beats a single whitepaper.",
+    "Read intent at two levels; multiple people at one account = a buying group, and it sorts to the top.",
+    "The rep opens to a finished, ordered list and works it top down."]},
+  s3p3:{k:"01 · Intent & Signal Design",t:"Test & Reweight",l:"Day one the weighting is my best defensible guess. After that your data takes over.",p:[
+    "Fit first (who matches ICP), then who's shown intent most recently.",
+    "Tag which signals actually preceded a real conversation.",
+    "After 2–3 weeks, reweight on your own conversion data, so the model earns its keep instead of running on my guesses."]},
+
+  s4p1:{k:"02 · Prioritization Workflow",t:"Build the Logic",l:"Custom scoring rules you define — not Apollo's default ranking. Signal strength, ICP fit, and freshness, weighted and pushed as fields into Apollo.",p:[
+    "CommonRoom feeds the signal and surfaces intent; Clay enriches and scores ICP fit; the combined score ranks the book.",
+    "Apollo has its own AI scoring, but it ranks on behavior inside Apollo (email opens, clicks). External intent from CommonRoom gets pushed as a custom field — you sort the Apollo view by it.",
+    "Weighting: inbound outranks outbound, the individual outranks the account, newer outranks older.",
+    "Day one the weighting is my best defensible guess. After two or three weeks, reweight on your own conversion data."]},
+  s4p2:{k:"02 · Prioritization Workflow",t:"Surface the List",l:"Each morning the ranked list lands in Apollo as a sorted view. Every account comes with context: what it is, why it surfaced, what to do.",p:[
+    "Apollo view sorted by your custom score field — where reps already work, no new tool to open.",
+    "Each account lands with context attached: the signal that triggered it and the suggested first move.",
+    "Tiering in practice (Chronosphere): Diablo = drop everything · Fire = next · Hot = strong, contact last · Mild = auto-nurture until it climbs.",
+    "I own the logic and the gate. RevOps scopes the technical connection."]},
+  s4p3:{k:"02 · Prioritization Workflow",t:"Keep It Fresh",l:"The list re-ranks every night on the latest signal. Yesterday's noise falls away; whatever's hot now rises to the top.",p:[
+    "Stale triggers drop overnight automatically.",
+    "New signals from CommonRoom surface before the rep's morning.",
+    "The list never looks the same two days running — it reflects what's actually happening in accounts right now.",
+    "No manual curation; the system maintains the order."]},
+
+  s5p1:{k:"03 · SDR Execution System",t:"LinkedIn First",l:"An SME-first motion that earns the conversation with technical buyers, platform engineers, SREs, DevOps.",p:[
+    "Open with a no-message connection request (same accept rate as one with a note).",
+    "On accept, send a 30-second personalized video. Name a pain they'd recognize, ask if it's their purview, keep it human.",
+    "No accept or answer → the call. The rep's own LinkedIn does the warming."]},
+  s5p2:{k:"03 · SDR Execution System",t:"15 Touches, 25 Days",l:"A coordinated cadence across channels. The ACV justifies the persistence.",p:[
+    "Across LinkedIn, phone, voicemail, and email, every touch adds something: a post, a video, a useful email.",
+    "Two voicemails total (first call and last); neither asks for a callback, both point to value.",
+    "It's a normal upper-end cadence for high-value cold outbound, and it never leans on “just circling back.”"]},
+  s5p3:{k:"03 · SDR Execution System",t:"Build It to Scale",l:"A documented motion and a warm hiring bench, so the org grows without depending on heroes.",p:[
+    "Enablement is continuous, because people forget about 89% of what they learn in a week without reinforcement.",
+    "I recruit the way I prospect: always sourcing candidates, so when we hire we pull from a warm bench instead of only outside applications.",
+    "The goal is a system that doesn't depend on heroes. Repeatable beats heroic, and that's how it scales from 4 reps to 12 to 20."]},
+  s5p4:{k:"03 · SDR Execution System",t:"Coach From the Work",l:"I coach live and model the motion, and I've carried a bag to this exact buyer.",p:[
+    "Staying in the calls is how I learn what's working fastest.",
+    "It keeps the messaging succinct, aimed at real pain, with a light lift to engage."]},
+
+  s6conv:{k:"04 · Success Metrics",t:"Conversion Over Activity",l:"Activity metrics show how busy the team is. The number that matters is pipeline that converts.",p:[
+    "The activity is already there: May numbers show good volume.",
+    "Connect-to-conversation at 57% and conversation-to-meeting at 14% are strong — the message works once reps connect.",
+    "Dial-to-connect at 3.5% is the constraint, below the 2026 SaaS norm of 5–8% on manual dialing.",
+    "Callback-to-connect at 24% confirms the phone works, so the cold numbers are what's bleeding."]},
+  s6back:{k:"04 · Success Metrics",t:"Work Backward from 70%",l:"The goal sets the math. From 70% of sourced pipeline, you can derive the SAO volume and the rates the funnel has to hold.",p:[
+    "Set the pipeline target, then back into the SAOs, meetings, and conversations it takes to get there.",
+    "Every month you know the SAO volume required and whether the funnel is keeping pace.",
+    "When you're behind, the math points to the exact stage that's short, so you fix the constraint rather than the symptom."]},
+  s6lead:{k:"04 · Success Metrics",t:"Manage the Leading Indicators",l:"SAOs and pipeline are lagging measures. Dial-to-connect and conversation-to-meeting tell you weeks earlier whether you'll hit them.",p:[
+    "The comp already rewards the outcomes that matter: a point on the SAO, a point on the install. That's the right design.",
+    "Those outcomes are lagging by nature, so the job is managing the leading indicators that move them.",
+    "If connect rate slips, you see it about three weeks before it shows up in pipeline and correct it in real time."]},
+
+  s7cr:{k:"05 · Stack: Run & First Change",t:"CommonRoom: The Signal Layer",l:"Owns the signal. Captures intent from across sources and surfaces which accounts are showing activity right now.",p:[
+    "Pulls intent from product, web, community, and third-party sources into one view.",
+    "Surfaces the accounts heating up, the raw input the score is built on.",
+    "First step in the flow: it decides what's even worth looking at before anything gets enriched or worked."]},
+  s7clay:{k:"05 · Stack: Run & First Change",t:"Clay: Enrich & Score",l:"The enrichment and scoring engine. Takes the surfaced accounts, fills in the data, and scores fit against ICP.",p:[
+    "Enriches each account and contact with the data points the score needs.",
+    "Scores fit against ICP and combines it with the signal to rank the book.",
+    "Where my custom logic lives: what counts, how it's weighted, what clears the gate."]},
+  s7apollo:{k:"05 · Stack: Run & First Change",t:"Apollo: Where Reps Work",l:"The ranked, enriched list lands here and the sequence runs. Reps work it top down.",p:[
+    "Receives the qualified, scored contacts and runs the outbound sequence.",
+    "Reps work the list sorted by the custom score pushed in from upstream.",
+    "Apollo's own AI ranks on in-Apollo behavior (opens, clicks); the external intent rides in as a custom field so your logic drives the order."]},
+  s7p1:{k:"05 · Stack: Run & First Change",t:"Wire Signal to Action",l:"The signal-to-action wiring is undefined today, so it's where I start.",p:[
+    "Get a scored signal to land as a clear action for the rep: the account, why it surfaced, and what to do.",
+    "Make the PG motion programmatic: output from the system, repeatable by any rep.",
+    "The gate decides what gets worked, what waits for more signal, and what's set aside as a non-fit."]},
+  s7p2:{k:"05 · Stack: Run & First Change",t:"Verify Channel Health",l:"3.5% connect at ~500+ dials a day points to burned numbers rather than a weak message.",p:[
+    "The parallel dialer is likely running 4+ lines and burning leads.",
+    "Number reputation under Orum may be decaying. Its “hot numbers” only confirm a number is valid and active, which says nothing about whether a human answers.",
+    "Confirm the line count and pull number-reputation data before optimizing anything on top of it."]}
+};
+
+/* ---------- deck navigation ---------- */
+const stage=document.getElementById('stage');
+const slides=[...document.querySelectorAll('.slide')];
+const rail=document.getElementById('rail');
+const curEl=document.getElementById('cur');
+document.getElementById('tot').textContent=String(slides.length).padStart(2,'0');
+let index=0, modalOpen=false;
+
+slides.forEach((_,i)=>{
+  const d=document.createElement('button');
+  d.className='rdot'+(i===0?' on':'');
+  d.addEventListener('click',()=>go(i));
+  rail.appendChild(d);
+});
+const dots=[...rail.children];
+
+function go(i){
+  i=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.toggle('prev',k<i);});
+  dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+  curEl.textContent=String(i+1).padStart(2,'0');
+  index=i;
+}
+function next(){go(index+1)} function prev(){go(index-1)}
+document.getElementById('next').addEventListener('click',next);
+document.getElementById('prev').addEventListener('click',prev);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){if(modalOpen)closeModal();return;}
+  if(modalOpen)return;
+  if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();next();}
+  else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();prev();}
+});
+
+const isMobile=()=>window.matchMedia('(max-width:760px)').matches;
+let wheelLock=false;
+document.getElementById('deck').addEventListener('wheel',e=>{
+  if(isMobile()||modalOpen||wheelLock)return;
+  if(Math.abs(e.deltaY)<12&&Math.abs(e.deltaX)<12)return;
+  wheelLock=true;setTimeout(()=>wheelLock=false,720);
+  (e.deltaY>0||e.deltaX>0)?next():prev();
+},{passive:true});
+
+let tx=0,ty=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{
+  if(isMobile()||modalOpen)return;
+  const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){dx<0?next():prev();}
+},{passive:true});
+
+/* agenda jump */
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>go(+b.dataset.goto)));
+
+/* ---------- modal ---------- */
+const overlay=document.getElementById('overlay');
+const mkicker=document.getElementById('mkicker'),mtitle=document.getElementById('mtitle'),
+      mlead=document.getElementById('mlead'),mlist=document.getElementById('mlist');
+function openDive(id){
+  const d=DIVES[id]; if(!d)return;
+  mkicker.textContent=d.k; mtitle.textContent=d.t; mlead.textContent=d.l;
+  mlist.innerHTML='';
+  d.p.forEach(t=>{const li=document.createElement('li');li.textContent=t;mlist.appendChild(li);});
+  overlay.classList.add('open'); modalOpen=true;
+}
+function closeModal(){overlay.classList.remove('open');modalOpen=false;}
+document.querySelectorAll('[data-dive]').forEach(b=>b.addEventListener('click',()=>openDive(b.dataset.dive)));
+document.getElementById('mclose').addEventListener('click',closeModal);
+overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});
+
+/* ---------- fit stage to viewport ---------- */
+function fit(){
+  if(isMobile()){stage.style.transform='none';return;}
+  const s=Math.min(window.innerWidth/1280, window.innerHeight/720);
+  const x=(window.innerWidth-1280*s)/2, y=(window.innerHeight-720*s)/2;
+  stage.style.transform=`translate(${x}px,${y}px) scale(${s})`;
+}
+window.addEventListener('resize',fit); fit();
+
+/* keep the scaled stage from ever scrolling (focus/scrollIntoView can shift it) */
+const deckEl=document.getElementById('deck');
+deckEl.addEventListener('scroll',()=>{deckEl.scrollTop=0;deckEl.scrollLeft=0;},{passive:true});
+</script>
+</body>
+</html>
