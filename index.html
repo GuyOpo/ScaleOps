@@ -115,7 +115,7 @@
   .arrow{color:var(--teal);font-size:20px;font-weight:700}
   .gate{position:absolute;left:602px;top:356px;font:400 18px/1 var(--sans);color:var(--muted)}
   .gate b{color:#cfcfe9;font-weight:500}
-  .points.stackpts{top:auto;bottom:48px;height:280px}
+  .points.stackpts{top:372px;bottom:44px;height:auto}
 
   /* ---------- chrome: dots, arrows, counter ---------- */
   .rail{position:fixed;right:26px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:13px;z-index:20}
@@ -308,7 +308,6 @@
       <div class="leftblock">
         <div class="num-badge">05</div>
         <div class="sec-title">Stack:<br>Run &amp; First Change</div>
-        <div class="cap">The stack is solid.<br>Wire it, then turn on Dripify.</div>
       </div>
       <div class="stackrow">
         <button class="lcard" data-dive="s7cr"><span class="lname"><svg class="crmark" viewBox="0 0 100 100" aria-hidden="true"><rect x="22" y="22" width="56" height="56" rx="15" transform="rotate(45 50 50)" fill="#111"/><path d="M61 29 L61 43 L49 50 L61 57 L61 71 L37 50 Z" fill="#fff"/></svg>Common&nbsp;Room</span></button>
@@ -317,9 +316,10 @@
         <span class="arrow">→</span>
         <button class="lcard" data-dive="s7apollo"><span class="lname">✳&nbsp;Apollo</span></button>
       </div>
-      <div class="points n2 stackpts">
+      <div class="points n3 stackpts">
         <button class="pt" data-dive="s7p1"><span class="pt-num">1</span><span><span class="pt-h">Wire Signal to Action<span class="pt-go">›</span></span><div class="pt-sub">Undefined today. Score and route so reps act on a ranked list.</div></span></button>
-        <button class="pt" data-dive="s7p2"><span class="pt-num">2</span><span><span class="pt-h">Verify Channel Health<span class="pt-go">›</span></span><div class="pt-sub">Connect rate looks like a number-burn problem. Diagnose before optimizing on top of it.</div></span></button>
+        <button class="pt" data-dive="s7p2"><span class="pt-num">2</span><span><span class="pt-h">Define the Sales Stages<span class="pt-go">›</span></span><div class="pt-sub">Each stage clear, so BDRs always know where their activity stands.</div></span></button>
+        <button class="pt" data-dive="s7p3"><span class="pt-num">3</span><span><span class="pt-h">Use What You Own<span class="pt-go">›</span></span><div class="pt-sub">Dripify is already paid for. Turn it on for the LinkedIn cadence.</div></span></button>
       </div>
     </section>
 
@@ -357,14 +357,14 @@ const DIVES = {
     "Within a type, weight by action strength. Pricing plus a few pages beats a single whitepaper.",
     "Read intent at two levels; multiple people at one account = a buying group, and it sorts to the top.",
     "The rep opens to a finished, ordered list and works it top down."]},
-  s3p3:{k:"01 · Intent & Signal Design",t:"Test & Reweight",l:"Day one the weighting is my best defensible guess. After that your data takes over.",p:[
+  s3p3:{k:"01 · Intent & Signal Design",t:"Test & Reweight",l:"Day one the weighting without data is my best defensible guess. After that your data takes over.",p:[
     "Fit first (who matches ICP), then who's shown intent most recently.",
     "Tag which signals actually preceded a real conversation.",
     "After 2–3 weeks, reweight on your own conversion data, so the model earns its keep instead of running on my guesses."]},
 
-  s4p1:{k:"02 · Prioritization Workflow",t:"Build the Logic",l:"Custom scoring rules you define — not Apollo's default ranking. Signal strength, ICP fit, and freshness, weighted and pushed as fields into Apollo.",p:[
+  s4p1:{k:"02 · Prioritization Workflow",t:"Build the Logic",l:"Custom scoring rules you define and own. Signal strength, ICP fit, and freshness, weighted and pushed as fields into Apollo.",p:[
     "CommonRoom feeds the signal and surfaces intent; Clay enriches and scores ICP fit; the combined score ranks the book.",
-    "Apollo has its own AI scoring, but it ranks on behavior inside Apollo (email opens, clicks). External intent from CommonRoom gets pushed as a custom field — you sort the Apollo view by it.",
+    "Apollo has its own AI scoring, but it ranks on behavior inside Apollo (email opens, clicks). External intent from CommonRoom gets pushed in as a custom field, and you sort the Apollo view by it.",
     "Weighting: inbound outranks outbound, the individual outranks the account, newer outranks older.",
     "Day one the weighting is my best defensible guess. After two or three weeks, reweight on your own conversion data."]},
   s4p2:{k:"02 · Prioritization Workflow",t:"Surface the List",l:"Each morning the ranked list lands in Apollo as a sorted view. Every account comes with context: what it is, why it surfaced, what to do.",p:[
@@ -385,7 +385,7 @@ const DIVES = {
   s5p2:{k:"03 · SDR Execution System",t:"15 Touches, 25 Days",l:"A coordinated cadence across channels. The ACV justifies the persistence.",p:[
     "Across LinkedIn, phone, voicemail, and email, every touch adds something: a post, a video, a useful email.",
     "Two voicemails total (first call and last); neither asks for a callback, both point to value.",
-    "It's a normal upper-end cadence for high-value cold outbound, and it never leans on “just circling back.”"]},
+    "The touches always add value, we never “touch base” or “circle back.”"]},
   s5p3:{k:"03 · SDR Execution System",t:"Build It to Scale",l:"A documented motion and a warm hiring bench, so the org grows without depending on heroes.",p:[
     "Enablement is continuous, because people forget about 89% of what they learn in a week without reinforcement.",
     "I recruit the way I prospect: always sourcing candidates, so when we hire we pull from a warm bench instead of only outside applications.",
@@ -396,7 +396,7 @@ const DIVES = {
 
   s6conv:{k:"04 · Success Metrics",t:"Conversion Over Activity",l:"Activity metrics show how busy the team is. The number that matters is pipeline that converts.",p:[
     "The activity is already there: May numbers show good volume.",
-    "Connect-to-conversation at 57% and conversation-to-meeting at 14% are strong — the message works once reps connect.",
+    "Connect-to-conversation at 57% and conversation-to-meeting at 14% are strong. The message works once reps connect.",
     "Dial-to-connect at 3.5% is the constraint, below the 2026 SaaS norm of 5–8% on manual dialing.",
     "Callback-to-connect at 24% confirms the phone works, so the cold numbers are what's bleeding."]},
   s6back:{k:"04 · Success Metrics",t:"Work Backward from 70%",l:"The goal sets the math. From 70% of sourced pipeline, you can derive the SAO volume and the rates the funnel has to hold.",p:[
@@ -424,10 +424,14 @@ const DIVES = {
     "Get a scored signal to land as a clear action for the rep: the account, why it surfaced, and what to do.",
     "Make the PG motion programmatic: output from the system, repeatable by any rep.",
     "The gate decides what gets worked, what waits for more signal, and what's set aside as a non-fit."]},
-  s7p2:{k:"05 · Stack: Run & First Change",t:"Verify Channel Health",l:"3.5% connect at ~500+ dials a day points to burned numbers rather than a weak message.",p:[
-    "The parallel dialer is likely running 4+ lines and burning leads.",
-    "Number reputation under Orum may be decaying. Its “hot numbers” only confirm a number is valid and active, which says nothing about whether a human answers.",
-    "Confirm the line count and pull number-reputation data before optimizing anything on top of it."]}
+  s7p2:{k:"05 · Stack: Run & First Change",t:"Define the Sales Stages",l:"Each step of the sales cycle defined clearly, so a BDR always knows where an account stands and what moves it forward.",p:[
+    "Build on the milestones already in place, SAO and install, by making the entry bar for each stage explicit.",
+    "When the stages are clear, a rep sees exactly where their activity sits and what the next step is.",
+    "Shared definitions keep the funnel honest, because everyone scores an account against the same bar."]},
+  s7p3:{k:"05 · Stack: Run & First Change",t:"Use What You Own",l:"Dripify is already owned and sitting idle, and the motion is LinkedIn-first, so it should be running the LinkedIn cadence.",p:[
+    "See whether Dripify can automate the LinkedIn steps: connection requests, follow-ups, and sequencing.",
+    "It's already paid for, so the goal is getting real value from a tool that's been sitting on the shelf.",
+    "Confirm what made it stall before, setup or fit, so turning it on actually sticks."]}
 };
 
 /* ---------- deck navigation ---------- */
